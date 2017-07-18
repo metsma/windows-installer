@@ -66,6 +66,7 @@ Instructions on how to enable token plugin can be found &lt;a href="http://id.ee
   <String Id="OptionsDesktop">Create ID-card software icons on my desktop</String>
   <String Id="OptionsStartMenu">Create ID-card software icons in my Start Menu Programs folder</String>
   <String Id="RunQesteidUtilDescription">Run the ID-card utility after installation</String>
+  <String Id="InstallX64Description">On clean install prefer X64 binaries (32 bit OS is not affected)</String>
   <String Id="install">Install</String>
   <String Id="qdigidoc">DigiDoc3 Client</String>
   <String Id="qesteidutil">ID-card utility</String>

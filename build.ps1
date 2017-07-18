@@ -1,9 +1,9 @@
-#powershell -ExecutionPolicy ByPass -File build.ps1 -msiversion 3.12.0.0
+#powershell -ExecutionPolicy ByPass -File build.ps1 -msiversion 17.8.0.0
 param(
    [string]$candle = "$env:WIX\bin\candle.exe",
    [string]$light = "$env:WIX\bin\light.exe",
    [string]$insignia = "$env:WIX\bin\insignia.exe",
-   [string]$msiversion = "3.12.0.0",
+   [string]$msiversion = "17.8.0.0",
    [string]$url = "https://installer.id.ee/media/windows/{2}",
    [string]$filename = "Open-EID-$msiversion$env:VER_SUFFIX",
    [string]$updater = "ID-Updater",
@@ -58,9 +58,9 @@ Function Sign($filename) {
     signtool.exe sign /a /v /s MY /n "$sign" /fd SHA256 /du http://installer.id.ee `
         /tr http://sha256timestamp.ws.symantec.com/sha256/timestamp /td SHA256 "$filename"
 }
-Function Create($wxs, $filename, $defaultX64) {
+Function Create($wxs, $filename) {
     & $candle "$path\$wxs.wxs" -nologo -ext WixBalExtension -ext WixUtilExtension `
-        "-dMSI_VERSION=$msiversion" "-dpath=$path" "-ddefaultX64=$defaultX64" "-dURL=$url" "-dembed=$embed" `
+        "-dMSI_VERSION=$msiversion" "-dpath=$path" "-dURL=$url" "-dembed=$embed" `
         "-dupdater=$updater" "-dqesteidutil=$qesteid" "-dqdigidoc=$qdigidoc" "-dteraVersion=$teraVersion" "-dminidriver=$minidriver" `
         "-dieplugin=$ieplugin" "-dchrome=$chrome" "-dloader=$loader" "-dshellext=$shellext" 
     & $light "$wxs.wixobj" -nologo -ext WixBalExtension -out "$filename"
@@ -82,6 +82,5 @@ if($sign) {
     Sign("metainfo.msi")
     Sign("uninstaller.msi")
 }
-Create "bootstrapper" $filename".exe" 1
-Create "bootstrapper" $filename"_x86.exe" 0
-Create "plugins" $filename"-plugins.exe" 0
+Create "bootstrapper" $filename".exe"
+Create "plugins" $filename"-plugins.exe"
